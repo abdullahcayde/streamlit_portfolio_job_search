@@ -22,6 +22,7 @@
 import time
 from datetime import datetime
 
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -265,7 +266,8 @@ with st.container():
         page_number = 1
 
         #  1 - Create Driver
-        Path = '/Users/macbook/Desktop/projects/Github_Repositories/streamlit_portfolio_job_search/data/chromedriver'
+        Path = 'https://github.com/abdullahcayde/streamlit_portfolio_job_search/blob/main/data/chromedriver'
+        #Path = '/Users/macbook/Desktop/projects/Github_Repositories/streamlit_portfolio_job_search/data/chromedriver'
         driver = webdriver.Chrome(Path)
 
         #  2 - Go to Website
