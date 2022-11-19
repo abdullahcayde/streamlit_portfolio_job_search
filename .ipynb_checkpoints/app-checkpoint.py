@@ -19,6 +19,79 @@
         # 8.4 - Errors and R-Squared
     # 9 - Contact Form (Send Mail to You)
 # ------------------------------ ------------------------------ ------------------------------
+import time
+from datetime import datetime
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+
+import pandas as pd
+import numpy as np
+
+import warnings
+warnings.simplefilter(action='ignore')
+
+# Sleep function 
+def sleep(x):
+    time.sleep(x)
+
+# Wait for a certain measure of time before throwing an exception
+def wait(x):
+    driver.implicitly_wait(x)
+
+# Click Function
+def click_bann_byID(ID):
+    actions = ActionChains(driver)
+    akzeptieren = driver.find_element(By.ID, ID)
+    actions.click(akzeptieren).perform()
+    wait(10)
+    sleep(0.5)
+
+# Find Elements Function
+def find_elements_HPCO(H,P,C,O):
+    if website_name == 'jobware':
+        header = driver.find_elements(By.TAG_NAME, H)
+    else:
+        header = driver.find_elements(By.CLASS_NAME, H)
+    publish = driver.find_elements(By.CLASS_NAME, P)
+    company = driver.find_elements(By.CLASS_NAME, C)
+    ort = driver.find_elements(By.CLASS_NAME, O) 
+
+    list_header = [title.text for title in header]
+    list_publish = [pub.text for pub in publish]
+    list_company = [comp.text for comp in company]
+    list_ort = [o.text for o in ort]
+    return list_header, list_publish, list_company, list_ort
+
+# Scroll Down Function
+def scroll_down(x):
+    n=0
+    while n < x:
+        n+=1
+        actions.key_down(Keys.PAGE_DOWN).perform()
+        sleep(1.5)
+        actions.key_down(Keys.PAGE_DOWN).perform()
+        sleep(1.5)
+        actions.key_down(Keys.PAGE_DOWN).perform()
+        sleep(1.5)
+        actions.key_down(Keys.PAGE_UP).perform()
+        sleep(0.10)
+        actions.key_down(Keys.PAGE_DOWN).perform()
+        wait(10)
+        sleep(2.5)
+
+
+
+
+        
+        
+        
+        
+
+
+
 
 import pandas as pd
 import numpy as np
@@ -93,10 +166,10 @@ with st.container():
         st.write(
             '''
             I am learning everyday Coding with Python : 
-            - I am on a new project because of that i have to learn streamlit.
-            - I have to learn joblib.
-            - I have to learn lightgm.
-            - I have to learn ......
+            - .
+            - .
+            - .
+            -  ......
             ''')
         st.write('[Learn more>](https://github.com/abdullahcayde)')
 
@@ -164,8 +237,182 @@ with st.container():
 # 8 - Slider, Selection Box, Text Input and ML Model
 with st.container():
     st.write('---')
-    st.title('Machine Learning Model')
+    st.title('Job Searching Project')
+    
+    #jobs_website = st.selectbox('Which websites do you want to select ?', options= ['Stepstone', 'Jobware', 'Linkedin'], index= 0 )
+    
+    jobs_website = st.write('Which websites do you want to select ?')
+    option_1 = st.checkbox('Stepstone')
+    option_2 = st.checkbox('Jobware')
+    option_3 = st.checkbox('Linkedin')
+    
+    jobs_searchWords = st.selectbox('Which job title do you want to select ?', options= ['Business Analyst', 'Data Scientist', 'Data Analyst'], index= 0 )
+    
+    
+    st.write('Selected Job Title :',  jobs_searchWords)
+    st.write('Selected Websites : ', )
+    
+    if option_1:
+        print('---------------------- StepStone Job Searching Selenium Project ----------------------')
+        start=datetime.now()  
+        # Link Descriptions
+        link_original_stepstone = 'https://www.stepstone.de/jobs/data-analyst/in-rietberg?radius=50&page=2'
 
+        website_name = option_1
+        job_name = jobs_searchWords
+        ort_ = 'Rietberg'
+        radius = 50
+        page_number = 1
+
+        #  1 - Create Driver
+        Path = '/Users/macbook/Desktop/projects/Github_Repositories/Portfolio Projects/02 - Web_Scraping_Job_Search/chromedriver'
+        driver = webdriver.Chrome(Path)
+
+        #  2 - Go to Website
+        job_link = job_name.replace(' ', '-').lower()
+        ort_link = ort_.lower()
+        link = f'https://www.stepstone.de/jobs/{job_link}/in-{ort_link}?radius={radius}&page={page_number}'
+
+        driver.get(link)
+        wait(10)
+        sleep(2)
+
+        #  3 - ActionChain Object created
+        # 3.1 - Click Banned Accept
+        ID = 'ccmgt_explicit_accept'
+        click_bann_byID(ID)
+
+
+        # 4 -  Take Infos from Page
+        # 4.1 - Headers, Publish_Time ,Company, City
+        H, P, C, O = 'resultlist-1uvdp0v', 'resultlist-w7zbt7', 'resultlist-1va1dj8', 'resultlist-suri3e'
+        list_header, list_publish, list_company, list_ort = find_elements_HPCO(H,P,C,O)
+
+        # 4.2 - Description and Page number of results
+        description = driver.find_elements(By.CLASS_NAME, 'resultlist-1fp8oay')
+        result = driver.find_elements(By.CLASS_NAME, 'resultlist-1jx3vjx')
+
+
+        # 4.3 - Get Links
+        header = driver.find_elements(By.CLASS_NAME, H)
+        list_link = [link.get_attribute('href') for link in header]
+
+        # 4.4 - Get Texts for each finding
+        list_description = [des.text for des in description]
+        print('Header',len(list_header), 'Publish',len(list_publish), 'Company',len(list_company[1:]), 'Ort',len(list_ort), 'Desc', len(list_description), 'Link',len(list_link))
+
+        # 4.5 - Total Search Page Number
+        list_result = [res.text for res in result]
+        number_of_page = int(list_result[-2])
+        print(f'Number of Jobs Pages = {number_of_page}')
+
+        # 4.6 - DataFrame df
+        d = dict(job_title=np.array(list_header), publish=np.array(list_publish), company=np.array(list_company[1:]), city=np.array(list_ort) , description=np.array(list_description), link=np.array(list_link))
+        df = pd.DataFrame.from_dict(d, orient='index')
+        df = df.T
+
+
+        # 4.7 Repeat Process for every Web Page
+        while  page_number < number_of_page:
+            page_number+=2
+
+            # 4.7.1 - Go to another page
+            link = f'https://www.stepstone.de/jobs/{job_link}/in-{ort_link}?radius={radius}&page={page_number}'
+            driver.get(link)
+            wait(10)
+            sleep(1.5)
+
+            # 4.7.2 - Find the elements and get the Texts
+            list_header, list_publish, list_company, list_ort = find_elements_HPCO(H,P,C,O) 
+            description = driver.find_elements(By.CLASS_NAME, 'resultlist-1pq4x2u')
+            list_description = [des.text for des in description]
+            header = driver.find_elements(By.CLASS_NAME, H)
+            list_link = [link.get_attribute('href') for link in header]
+
+            # 4.7.3 - Create new page Dataframe
+            d = dict(job_title=np.array(list_header), publish=np.array(list_publish), company=np.array(list_company[1:]), city=np.array(list_ort) , description=np.array(list_description), link=np.array(list_link))
+            df2 = pd.DataFrame.from_dict(d, orient='index')
+            df2 = df2.T
+
+            # 4.7.4 - Concatenate the DataFrames
+            df = pd.concat([df,df2], axis=0, ignore_index=True)
+            print(f'Page Number : {page_number}, DataFrame Shape : {df2.shape}')
+
+
+        # 5.1 - Save Data as csv 
+        print(f'DataFrame End : {df.shape}')
+        df['website'] = website_name
+        time_ = datetime.today().strftime('%Y-%m-%d')
+        df['date'] = time_
+        job_name2 = job_name.replace(' ', '_')
+        df['search_title'] = job_name2
+
+        path = '/Users/macbook/Desktop/projects/Github_Repositories/Portfolio Projects/02 - Web_Scraping_Job_Search/data'
+        job_name3 = job_name.replace(' ', '-')
+        time_ = datetime.today().strftime('%Y-%m-%d')
+        #df.to_csv(f'{path}/{job_name3}-{time_}.csv', index=False)
+
+        # 6 - Quit
+        end =datetime.now() 
+        print('Code Runned No Problem')
+        print(f'Time = {end - start}')
+        sleep(2)
+        driver.quit()
+        
+        # 7 - DataFrame Read
+
+        with st.container():
+            st.write('---')
+            st.header('Data Frame - Pandas')
+
+            st.subheader(f'Data Frame : {jobs_searchWords}')
+            st.write(df.head())
+
+            left_column, right_column = st.columns(2)
+            with left_column:
+                st.subheader(f'Data Frame : {jobs_searchWords}')
+                st.write(df['company'].value_counts().head(10))
+            with right_column:
+                st.subheader('Job_Title - Bar Chart')
+                st.bar_chart(pd.DataFrame(df['job_title'].value_counts().head()))
+                #st.markdown('* **first feature:** I want see which Model Year Distribution')
+    
+    df['job_title'].value_counts().head()
+    
+    
+
+# 9 - Contact Form (Send Mail to You)
+with st.container():
+    st.write('--')
+    st.header('Get In Touch With Me!')
+    st.write('##')
+
+    # Documention: https://formsubmit.co/ !!! CHANGE EMAIL ADDRESS !!!
+    contact_form = '''
+    <form action="https://formsubmit.co/abdullahcay26@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message here" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+    '''
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.markdown(contact_form, unsafe_allow_html=True)
+    with right_column:
+        st.empty()
+
+        
+        
+        
+        
+        
+        
+        
+        
+      
+'''
     set_col, disp_col = st.columns(2)
 
     # 8.1 - Read Taxi DataFrama
@@ -174,9 +421,9 @@ with st.container():
     set_col.write(df.head())
 
     # 8.2 - Create slider, selectbox, text_input
-    max_depth = set_col.slider('What should be the max_depth of the model ?', min_value=1, max_value=36, step=1)
+    #max_depth = set_col.slider('What should be the max_depth of the model ?', min_value=1, max_value=36, step=1)
     n_estimators = set_col.selectbox('What shoul be the n_estimators ?', options= [100, 200, 300, 'No Limit'], index= 0 )
-    input_feature = set_col.text_input('Select your Feature for the prediction of "Total :"', 'distance',placeholder='Feature')
+    #input_feature = set_col.text_input('Select your Feature for the prediction of "Total :"', 'distance',placeholder='Feature')
 
     if input_feature == 'No Limit':
         regr = RandomForestRegressor(max_depth=max_depth)
@@ -210,29 +457,7 @@ with st.container():
     disp_col.subheader('R Squared Score of the Model is:')
     r_sqr = disp_col.write(r2_score(y, prediction))
 
-
-# 9 - Contact Form (Send Mail to You)
-with st.container():
-    st.write('--')
-    st.header('Get In Touch With Me!')
-    st.write('##')
-
-    # Documention: https://formsubmit.co/ !!! CHANGE EMAIL ADDRESS !!!
-    contact_form = '''
-    <form action="https://formsubmit.co/abdullahcay26@gmail.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Your message here" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-    '''
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.markdown(contact_form, unsafe_allow_html=True)
-    with right_column:
-        st.empty()
-
+'''
 
 
 
