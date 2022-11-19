@@ -102,7 +102,7 @@ with st.container():
 
         #with right_column:
             #st_lottie(lottie_coding, height=300, key='coding')
-'''
+
 # 6 - Projects
 # 6.1 - Project01 - Pandas Visualization - Section03
 with st.container():
@@ -160,7 +160,7 @@ with st.container():
         st.bar_chart(pd.DataFrame(df_jazz['Year'].value_counts()))
         st.markdown('* **first feature:** I want see which Model Year Distribution')
 
-'''
+
 # 8 - Slider, Selection Box, Text Input and ML Model
 with st.container():
     st.write('---')
