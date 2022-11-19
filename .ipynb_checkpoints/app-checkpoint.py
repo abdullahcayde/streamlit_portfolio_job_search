@@ -265,7 +265,7 @@ with st.container():
         page_number = 1
 
         #  1 - Create Driver
-        Path = '/Users/macbook/Desktop/projects/Github_Repositories/Portfolio Projects/02 - Web_Scraping_Job_Search/chromedriver'
+        Path = '/Users/macbook/Desktop/projects/Github_Repositories/Python_Projects/pythonProjectSelenium/data/chromedriver'
         driver = webdriver.Chrome(Path)
 
         #  2 - Go to Website
