@@ -257,7 +257,7 @@ with st.container():
         print('---------------------- StepStone Job Searching Selenium Project ----------------------')
         start=datetime.now()  
         # Link Descriptions
-        link_original_stepstone = 'https://www.stepstone.de/jobs/data-analyst/in-rietberg?radius=50&page=2'
+        
 
         website_name = option_1
         job_name = jobs_searchWords
@@ -267,7 +267,7 @@ with st.container():
 
         #  1 - Create Driver
         #Path = 'https://github.com/abdullahcayde/streamlit_portfolio_job_search/blob/main/data/chromedriver'
-        Path = '/Users/macbook/Desktop/projects/Github_Repositories/streamlit_portfolio_job_search/data/chromedriver'
+        Path = 'data/chromedriver'
         driver = webdriver.Chrome(Path)
 
         #  2 - Go to Website
@@ -316,7 +316,7 @@ with st.container():
 
         # 4.7 Repeat Process for every Web Page
         while  page_number < number_of_page:
-            page_number+=2
+            page_number+=1
 
             # 4.7.1 - Go to another page
             link = f'https://www.stepstone.de/jobs/{job_link}/in-{ort_link}?radius={radius}&page={page_number}'
