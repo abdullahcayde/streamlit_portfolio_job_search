@@ -266,8 +266,8 @@ with st.container():
         page_number = 1
 
         #  1 - Create Driver
-        Path = 'https://github.com/abdullahcayde/streamlit_portfolio_job_search/blob/main/data/chromedriver'
-        #Path = '/Users/macbook/Desktop/projects/Github_Repositories/streamlit_portfolio_job_search/data/chromedriver'
+        #Path = 'https://github.com/abdullahcayde/streamlit_portfolio_job_search/blob/main/data/chromedriver'
+        Path = '/Users/macbook/Desktop/projects/Github_Repositories/streamlit_portfolio_job_search/data/chromedriver'
         driver = webdriver.Chrome(Path)
 
         #  2 - Go to Website
