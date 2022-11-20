@@ -84,12 +84,11 @@ with st.container():
     if option_1:
         url = 'https://www.ebay-kleinanzeigen.de/s-jobs/rietberg/data-analyst/k0c102l1363r50'
 
-        #url = 'https://www.jobware.de/jobsuche?jw_jobname=business%20analyst&jw_jobort=333**%20Rietberg&jw_ort_distance=50'
         def get_data(url):
 
             headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0'}
             r = requests.get(url, headers=headers)
-            soup = BeautifulSoup(r.text, "html5lib")
+            soup = BeautifulSoup(r.text, "html.parser")
             return soup
 
 
