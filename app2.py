@@ -133,7 +133,7 @@ with st.container():
                 st.subheader(f'Data Frame : {jobs_searchWords}')
                 st.dataframe(df.head())
 
-                writer = pd.ExcelWriter('ebay_job.xlsx')
+                writer = pd.ExcelWriter(f'{jobs_searchWords}.xlsx')
                 df.to_excel(writer, 'sheet1')
                 writer.save()
                 
@@ -142,9 +142,9 @@ with st.container():
                                   file_name = 'ebay_job.csv',
                                   mime= 'text/csv')
                 
-                with open("ebay_job.xlsx", "rb") as file:
+                with open(f'{jobs_searchWords}.xlsx', "rb") as file:
                      btn = st.download_button(
                                 label="Download Excel",
                                 data=file,
-                                file_name="ebay_job.xlsx",
+                                file_name=f"{jobs_searchWords}.xlsx",
                                 mime="text/csv")
