@@ -141,11 +141,10 @@ with st.container():
                                   df.to_csv(),
                                   file_name = f'{jobs_searchWords}.csv',
                                   mime= 'text/csv')
-'''
+
                 with open(f'{jobs_searchWords}.xlsx', "rb") as file:
                      btn = st.download_button(
                                 label="Download Excel",
                                 data=file,
                                 file_name=f"{jobs_searchWords}.xlsx",
                                 mime="text/csv")
-'''
