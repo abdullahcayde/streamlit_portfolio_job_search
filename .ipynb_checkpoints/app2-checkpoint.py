@@ -31,7 +31,7 @@ def get_data(url):
     
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0'}
     r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text, "html5lib")
+    soup = BeautifulSoup(r.text, "html.parser")
     return soup
 
 
