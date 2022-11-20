@@ -74,15 +74,17 @@ with st.container():
     
     #jobs_website = st.selectbox('Which websites do you want to select ?', options= ['Stepstone', 'Jobware', 'Linkedin'], index= 0 )
     
+    
+    jobs_searchWords = st.selectbox('Which job title do you want to select ?', options= ['Business Analyst', 'Data Scientist', 'Data Analyst'], index= 0 )
+    
     jobs_website = st.write('Which websites do you want to select ?')
     option_1 = st.checkbox('Ebay')
     option_2 = st.checkbox('Jobware')
     option_3 = st.checkbox('Linkedin')
     
-    jobs_searchWords = st.selectbox('Which job title do you want to select ?', options= ['Business Analyst', 'Data Scientist', 'Data Analyst'], index= 0 )
-    
     if option_1:
-        url = 'https://www.ebay-kleinanzeigen.de/s-jobs/rietberg/data-analyst/k0c102l1363r50'
+        jobs_searchWords = jobs_searchWords.replace(' ', '-').lower()
+        url = f'https://www.ebay-kleinanzeigen.de/s-jobs/rietberg/{jobs_searchWords}/k0c102l1363r50'
 
         def get_data(url):
 
