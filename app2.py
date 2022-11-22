@@ -24,7 +24,7 @@ def load_lottieurl(url):
     return r.json()
 
 
-url = 'https://www.ebay-kleinanzeigen.de/s-jobs/rietberg/data-analyst/k0c102l1363r50'
+#url = 'https://www.ebay-kleinanzeigen.de/s-jobs/rietberg/data-analyst/k0c102l1363r50'
 
 #url = 'https://www.jobware.de/jobsuche?jw_jobname=business%20analyst&jw_jobort=333**%20Rietberg&jw_ort_distance=50'
 def get_data(url):
@@ -63,9 +63,9 @@ def output(job_list):
     return
 
 
-soup = get_data(url)
-job_list = parse(soup)
-output(job_list)
+#soup = get_data(url)
+#job_list = parse(soup)
+#output(job_list)
 
 
 with st.container():
